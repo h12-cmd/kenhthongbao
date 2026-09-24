@@ -47,7 +47,6 @@
             padding: 30px 18px;
             overflow-x: hidden;
         }
-        /* Background glow */
         body::before {
             content: "";
             position: fixed;
@@ -79,7 +78,6 @@
                 transform: translateY(0);
             }
         }
-        /* Logo */
         .logo {
             font-size: clamp(34px, 9vw, 62px);
             font-weight: 850;
@@ -94,7 +92,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* Status */
         .status {
             display: inline-flex;
             align-items: center;
@@ -128,7 +125,6 @@
                 transform: scale(.8);
             }
         }
-        /* Main title */
         h1 {
             font-size: clamp(36px, 9vw, 58px);
             line-height: 1.04;
@@ -142,7 +138,6 @@
             font-size: 15px;
             line-height: 1.7;
         }
-        /* Countdown */
         .countdown {
             display: grid;
             grid-template-columns:
@@ -174,7 +169,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Discord */
         .discord-card {
             max-width: 520px;
             margin: 0 auto;
@@ -240,13 +234,11 @@
         .join-button:active {
             transform: scale(.98);
         }
-        /* Footer */
         footer {
             margin-top: 28px;
             color: #4e4e57;
             font-size: 11px;
         }
-        /* Mobile */
         @media (max-width: 430px) {
             body {
                 padding: 24px 15px;
@@ -275,16 +267,13 @@
 </head>
 <body>
     <main class="container">
-        <!-- LOGO -->
         <div class="logo">
             KENTHONGBAO
         </div>
-        <!-- STATUS -->
         <div class="status">
             <span class="status-dot"></span>
             IN DEVELOPMENT
         </div>
-        <!-- MAIN -->
         <h1>
             Something is<br>
             coming.
@@ -293,54 +282,24 @@
             Một điều mới đang được chuẩn bị.
             KENTHONGBAO sẽ sớm xuất hiện.
         </p>
-        <!-- COUNTDOWN -->
         <section class="countdown">
             <div class="time-box">
-                <span
-                    class="number"
-                    id="days"
-                >
-                    00
-                </span>
-                <span class="label">
-                    Days
-                </span>
+                <span class="number" id="days">00</span>
+                <span class="label">Days</span>
             </div>
             <div class="time-box">
-                <span
-                    class="number"
-                    id="hours"
-                >
-                    00
-                </span>
-                <span class="label">
-                    Hours
-                </span>
+                <span class="number" id="hours">00</span>
+                <span class="label">Hours</span>
             </div>
             <div class="time-box">
-                <span
-                    class="number"
-                    id="minutes"
-                >
-                    00
-                </span>
-                <span class="label">
-                    Minutes
-                </span>
+                <span class="number" id="minutes">00</span>
+                <span class="label">Minutes</span>
             </div>
             <div class="time-box">
-                <span
-                    class="number"
-                    id="seconds"
-                >
-                    00
-                </span>
-                <span class="label">
-                    Seconds
-                </span>
+                <span class="number" id="seconds">00</span>
+                <span class="label">Seconds</span>
             </div>
         </section>
-        <!-- DISCORD -->
         <section class="discord-card">
             <div class="discord-label">
                 DISCORD COMMUNITY
@@ -352,19 +311,15 @@
                 <span class="online">●</span>
                 Community server
             </div>
-            <!--
-                ĐỔI LINK NÀY THÀNH LINK DISCORD CỦA MÀY
-            -->
             <a
                 class="join-button"
-                href="https://discord.gg/YOUR_INVITE"
+                href="https://discord.gg/HFsJZ2qaqt"
                 target="_blank"
                 rel="noopener noreferrer"
             >
                 JOIN DISCORD
             </a>
         </section>
-        <!-- FOOTER -->
         <footer>
             © 2026 KENTHONGBAO
         </footer>
@@ -372,26 +327,44 @@
     <script>
         /*
         ==========================================
-        KENTHONGBAO COUNTDOWN
+        COUNTDOWN 52 NGÀY
         ==========================================
-        ĐỔI NGÀY RA MẮT Ở DÒNG BÊN DƯỚI.
-        Ví dụ:
-        2026-12-31T00:00:00+07:00
-        +07:00 = múi giờ Việt Nam.
+        Countdown sẽ tự động bắt đầu từ lúc
+        trang được khởi chạy lần đầu.
+        52 ngày = 52 × 24 × 60 × 60 giây.
         ==========================================
         */
-        const launchDate =
-            new Date(
-                "2026-12-31T00:00:00+07:00"
-            ).getTime();
+        const LAUNCH_AFTER_DAYS = 52;
+        const STORAGE_KEY =
+            "kenthongbao_launch_time";
+        /*
+        Lấy thời điểm đã lưu trước đó.
+        Nếu chưa có thì tạo thời điểm mới.
+        */
+        let launchTime =
+            localStorage.getItem(STORAGE_KEY);
+        if (!launchTime) {
+            launchTime =
+                Date.now() +
+                (
+                    LAUNCH_AFTER_DAYS *
+                    24 *
+                    60 *
+                    60 *
+                    1000
+                );
+            localStorage.setItem(
+                STORAGE_KEY,
+                launchTime
+            );
+        }
+        launchTime =
+            Number(launchTime);
         function updateCountdown() {
             const now =
                 Date.now();
             const distance =
-                launchDate - now;
-            /*
-            Nếu đã tới ngày launch
-            */
+                launchTime - now;
             if (distance <= 0) {
                 document.getElementById("days")
                     .textContent = "00";
@@ -439,13 +412,7 @@
                 String(seconds)
                     .padStart(2, "0");
         }
-        /*
-        Chạy ngay khi mở trang
-        */
         updateCountdown();
-        /*
-        Cập nhật mỗi giây
-        */
         setInterval(
             updateCountdown,
             1000
