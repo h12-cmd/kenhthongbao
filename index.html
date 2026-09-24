@@ -1,422 +1,741 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#07070a">
-    <meta name="description" content="KENTHONGBAO — Something new is coming.">
-    <title>KENTHONGBAO — Coming Soon</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        :root {
-            --bg: #07070a;
-            --text: #ffffff;
-            --muted: #8b8b95;
-            --border: rgba(255,255,255,.09);
-            --card: rgba(255,255,255,.045);
-            --accent: #8b6cff;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            min-height: 100vh;
-            color: var(--text);
-            background:
-                radial-gradient(
-                    circle at 50% 0%,
-                    rgba(139,108,255,.18),
-                    transparent 35%
-                ),
-                var(--bg);
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                Helvetica,
-                Arial,
-                sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 18px;
-            overflow-x: hidden;
-        }
-        body::before {
-            content: "";
-            position: fixed;
-            width: 420px;
-            height: 420px;
-            border-radius: 50%;
-            background: rgba(139,108,255,.08);
-            filter: blur(100px);
-            top: -180px;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
-        }
-        .container {
-            width: 100%;
-            max-width: 680px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            animation: pageIn .8s ease;
-        }
-        @keyframes pageIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .logo {
-            font-size: clamp(34px, 9vw, 62px);
-            font-weight: 850;
-            letter-spacing: -2.8px;
-            margin-bottom: 16px;
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff 20%,
-                    #a998ff 80%
-                );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 13px;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            background: rgba(255,255,255,.035);
-            color: #a1a1ab;
-            font-size: 11px;
-            letter-spacing: 1.2px;
-            margin-bottom: 28px;
-            backdrop-filter: blur(12px);
-        }
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #64e68a;
-            box-shadow:
-                0 0 12px rgba(100,230,138,.8);
-            animation: pulse 1.8s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: .4;
-                transform: scale(.8);
-            }
-        }
-        h1 {
-            font-size: clamp(36px, 9vw, 58px);
-            line-height: 1.04;
-            letter-spacing: -2.4px;
-            margin-bottom: 18px;
-        }
-        .description {
-            max-width: 470px;
-            margin: 0 auto;
-            color: var(--muted);
-            font-size: 15px;
-            line-height: 1.7;
-        }
-        .countdown {
-            display: grid;
-            grid-template-columns:
-                repeat(4, 1fr);
-            gap: 10px;
-            max-width: 520px;
-            margin: 38px auto 26px;
-        }
-        .time-box {
-            padding: 16px 7px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--card);
-            backdrop-filter: blur(14px);
-            box-shadow:
-                inset 0 1px 0 rgba(255,255,255,.025);
-        }
-        .number {
-            display: block;
-            font-size: 25px;
-            font-weight: 750;
-            letter-spacing: -.5px;
-        }
-        .label {
-            display: block;
-            margin-top: 5px;
-            color: #666672;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .discord-card {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 21px;
-            text-align: left;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.055),
-                    rgba(255,255,255,.018)
-                );
-            backdrop-filter: blur(18px);
-            transition:
-                transform .25s ease,
-                border-color .25s ease;
-        }
-        .discord-card:hover {
-            transform: translateY(-3px);
-            border-color:
-                rgba(139,108,255,.25);
-        }
-        .discord-label {
-            color: #777783;
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            margin-bottom: 7px;
-        }
-        .discord-name {
-            font-size: 20px;
-            font-weight: 750;
-            margin-bottom: 5px;
-        }
-        .discord-status {
-            color: #777783;
-            font-size: 13px;
-            margin-bottom: 17px;
-        }
-        .online {
-            color: #64e68a;
-        }
-        .join-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 13px 18px;
-            border-radius: 12px;
-            background: #ffffff;
-            color: #08080b;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 750;
-            transition:
-                transform .2s ease,
-                opacity .2s ease;
-        }
-        .join-button:hover {
-            transform: translateY(-2px);
-            opacity: .9;
-        }
-        .join-button:active {
-            transform: scale(.98);
-        }
-        footer {
-            margin-top: 28px;
-            color: #4e4e57;
-            font-size: 11px;
-        }
-        @media (max-width: 430px) {
-            body {
-                padding: 24px 15px;
-            }
-            .countdown {
-                gap: 7px;
-            }
-            .time-box {
-                padding: 14px 4px;
-                border-radius: 14px;
-            }
-            .number {
-                font-size: 21px;
-            }
-            .label {
-                font-size: 8px;
-            }
-            .discord-card {
-                padding: 18px;
-            }
-            footer {
-                margin-top: 24px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05070d">
+  <meta
+    name="description"
+    content="KENTHONGBAO — Một điều mới đang được phát triển."
+  >
+  <title>KENTHONGBAO — Coming Soon</title>
+  <style>
+    /* =========================================================
+       RESET
+    ========================================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+      color: #ffffff;
+      background: #05070d;
+    }
+    /* =========================================================
+       BACKGROUND
+    ========================================================= */
+    .background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          rgba(56, 92, 180, 0.20),
+          transparent 38%
+        ),
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(70, 90, 180, 0.08),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 80%,
+          rgba(120, 70, 180, 0.06),
+          transparent 30%
+        ),
+        #05070d;
+    }
+    /* Grid */
+    .background::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.025) 1px,
+          transparent 1px
+        );
+      background-size: 45px 45px;
+      mask-image:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,1),
+          rgba(0,0,0,0)
+        );
+    }
+    /* Glow */
+    .glow {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(70, 100, 255, 0.08);
+      filter: blur(100px);
+      animation: floatingGlow 9s ease-in-out infinite;
+    }
+    .glow.one {
+      top: -180px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .glow.two {
+      bottom: -220px;
+      right: -100px;
+      width: 350px;
+      height: 350px;
+      background: rgba(120, 70, 255, 0.06);
+      animation-delay: -3s;
+    }
+    /* =========================================================
+       MAIN
+    ========================================================= */
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 18px;
+    }
+    .container {
+      width: min(680px, 100%);
+      text-align: center;
+      animation: pageEnter 1s ease forwards;
+    }
+    /* =========================================================
+       LOGO
+    ========================================================= */
+    .logo {
+      display: inline-block;
+      margin-bottom: 18px;
+      font-size: clamp(34px, 9vw, 68px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -3px;
+      background:
+        linear-gradient(
+          110deg,
+          #ffffff 0%,
+          #ffffff 35%,
+          #a8c2ff 70%,
+          #738cff 100%
+        );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      user-select: none;
+    }
+    /* =========================================================
+       STATUS
+    ========================================================= */
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.09);
+      background:
+        rgba(255,255,255,0.035);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03);
+      color: #9da8ba;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #5cf0aa;
+      box-shadow:
+        0 0 6px rgba(92,240,170,0.8),
+        0 0 16px rgba(92,240,170,0.45);
+      animation:
+        statusPulse 1.8s ease-in-out infinite;
+    }
+    /* =========================================================
+       TITLE
+    ========================================================= */
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(38px, 9vw, 64px);
+      line-height: 0.98;
+      font-weight: 850;
+      letter-spacing: -3px;
+      color: #ffffff;
+    }
+    /* =========================================================
+       DESCRIPTION
+    ========================================================= */
+    .description {
+      width: min(520px, 100%);
+      margin: 0 auto;
+      color: #8994a8;
+      font-size: 15px;
+      line-height: 1.75;
+      font-weight: 400;
+    }
+    /* =========================================================
+       COUNTDOWN
+    ========================================================= */
+    .countdown {
+      width: 100%;
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 11px;
+      margin-top: 38px;
+      margin-bottom: 28px;
+    }
+    .time-box {
+      position: relative;
+      padding: 19px 10px 17px;
+      border-radius: 17px;
+      border: 1px solid rgba(255,255,255,0.075);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.055),
+          rgba(255,255,255,0.025)
+        );
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.16),
+        inset 0 1px 0 rgba(255,255,255,0.025);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+    }
+    .time-box:hover {
+      transform: translateY(-3px);
+      border-color:
+        rgba(130,155,255,0.22);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.075),
+          rgba(255,255,255,0.03)
+        );
+    }
+    .number {
+      display: block;
+      color: #ffffff;
+      font-size: clamp(25px, 6vw, 40px);
+      line-height: 1;
+      font-weight: 850;
+      letter-spacing: -1px;
+      font-variant-numeric: tabular-nums;
+    }
+    .label {
+      display: block;
+      margin-top: 8px;
+      color: #687489;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+    /* =========================================================
+       DISCORD BUTTON
+    ========================================================= */
+    .discord-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      min-height: 48px;
+      padding: 0 19px;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 14px;
+      border: 1px solid
+        rgba(88,101,242,0.30);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(88,101,242,0.18),
+          rgba(88,101,242,0.07)
+        );
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.14);
+      font-size: 14px;
+      font-weight: 700;
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+    .discord-button:hover {
+      transform: translateY(-3px);
+      border-color:
+        rgba(110,125,255,0.65);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(88,101,242,0.28),
+          rgba(88,101,242,0.12)
+        );
+      box-shadow:
+        0 14px 35px rgba(40,50,130,0.20);
+    }
+    .discord-icon {
+      width: 23px;
+      height: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      margin-top: 34px;
+      color: #465064;
+      font-size: 11px;
+      letter-spacing: 0.3px;
+    }
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+    @media (max-width: 520px) {
+      .page {
+        padding: 25px 15px;
+      }
+      .logo {
+        letter-spacing: -2px;
+      }
+      h1 {
+        letter-spacing: -2px;
+      }
+      .description {
+        padding: 0 5px;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .countdown {
+        gap: 7px;
+        margin-top: 30px;
+      }
+      .time-box {
+        padding:
+          15px 5px
+          14px;
+        border-radius: 13px;
+      }
+      .number {
+        font-size: 24px;
+      }
+      .label {
+        margin-top: 6px;
+        font-size: 8px;
+        letter-spacing: 1px;
+      }
+      .discord-button {
+        min-height: 46px;
+        padding: 0 17px;
+        font-size: 13px;
+      }
+      footer {
+        margin-top: 28px;
+      }
+    }
+    /* =========================================================
+       VERY SMALL PHONES
+    ========================================================= */
+    @media (max-width: 360px) {
+      .logo {
+        font-size: 32px;
+      }
+      h1 {
+        font-size: 35px;
+      }
+      .countdown {
+        gap: 5px;
+      }
+      .time-box {
+        padding:
+          13px 3px
+          12px;
+      }
+      .number {
+        font-size: 21px;
+      }
+      .label {
+        font-size: 7px;
+      }
+    }
+    /* =========================================================
+       ANIMATIONS
+    ========================================================= */
+    @keyframes pageEnter {
+      0% {
+        opacity: 0;
+        transform:
+          translateY(22px)
+          scale(0.985);
+      }
+      100% {
+        opacity: 1;
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+    @keyframes statusPulse {
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.45;
+        transform: scale(0.72);
+      }
+    }
+    @keyframes floatingGlow {
+      0%,
+      100% {
+        transform:
+          translateX(-50%)
+          translateY(0)
+          scale(1);
+      }
+      50% {
+        transform:
+          translateX(-50%)
+          translateY(25px)
+          scale(1.08);
+      }
+    }
+    /* =========================================================
+       REDUCED MOTION
+    ========================================================= */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
-    <main class="container">
-        <div class="logo">
-            KENTHONGBAO
+  <!-- =======================================================
+       BACKGROUND
+  ======================================================== -->
+  <div class="background">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+  </div>
+  <!-- =======================================================
+       MAIN PAGE
+  ======================================================== -->
+  <main class="page">
+    <div class="container">
+      <!-- ===================================================
+           LOGO
+      ==================================================== -->
+      <div class="logo">
+        KENTHONGBAO
+      </div>
+      <!-- ===================================================
+           STATUS
+      ==================================================== -->
+      <div class="status" id="status">
+        <span class="status-dot"></span>
+        <span id="statusText">
+          IN DEVELOPMENT
+        </span>
+      </div>
+      <!-- ===================================================
+           TITLE
+      ==================================================== -->
+      <h1 id="mainTitle">
+        Something is coming.
+      </h1>
+      <!-- ===================================================
+           DESCRIPTION
+      ==================================================== -->
+      <p class="description">
+        KENTHONGBAO đang được phát triển.
+        Một phiên bản mới đang được chuẩn bị và sẽ sớm xuất hiện.
+      </p>
+      <!-- ===================================================
+           COUNTDOWN
+      ==================================================== -->
+      <div class="countdown">
+        <div class="time-box">
+          <span
+            class="number"
+            id="days"
+          >
+            00
+          </span>
+          <span class="label">
+            Ngày
+          </span>
         </div>
-        <div class="status">
-            <span class="status-dot"></span>
-            IN DEVELOPMENT
+        <div class="time-box">
+          <span
+            class="number"
+            id="hours"
+          >
+            00
+          </span>
+          <span class="label">
+            Giờ
+          </span>
         </div>
-        <h1>
-            Something is<br>
-            coming.
-        </h1>
-        <p class="description">
-            Một điều mới đang được chuẩn bị.
-            KENTHONGBAO sẽ sớm xuất hiện.
-        </p>
-        <section class="countdown">
-            <div class="time-box">
-                <span class="number" id="days">00</span>
-                <span class="label">Days</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="hours">00</span>
-                <span class="label">Hours</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="minutes">00</span>
-                <span class="label">Minutes</span>
-            </div>
-            <div class="time-box">
-                <span class="number" id="seconds">00</span>
-                <span class="label">Seconds</span>
-            </div>
-        </section>
-        <section class="discord-card">
-            <div class="discord-label">
-                DISCORD COMMUNITY
-            </div>
-            <div class="discord-name">
-                KENTHONGBAO
-            </div>
-            <div class="discord-status">
-                <span class="online">●</span>
-                Community server
-            </div>
-            <a
-                class="join-button"
-                href="https://discord.gg/HFsJZ2qaqt"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                JOIN DISCORD
-            </a>
-        </section>
-        <footer>
-            © 2026 KENTHONGBAO
-        </footer>
-    </main>
-    <script>
-        /*
-        ==========================================
-        COUNTDOWN 52 NGÀY
-        ==========================================
-        Countdown sẽ tự động bắt đầu từ lúc
-        trang được khởi chạy lần đầu.
-        52 ngày = 52 × 24 × 60 × 60 giây.
-        ==========================================
-        */
-        const LAUNCH_AFTER_DAYS = 52;
-        const STORAGE_KEY =
-            "kenthongbao_launch_time";
-        /*
-        Lấy thời điểm đã lưu trước đó.
-        Nếu chưa có thì tạo thời điểm mới.
-        */
-        let launchTime =
-            localStorage.getItem(STORAGE_KEY);
-        if (!launchTime) {
-            launchTime =
-                Date.now() +
-                (
-                    LAUNCH_AFTER_DAYS *
-                    24 *
-                    60 *
-                    60 *
-                    1000
-                );
-            localStorage.setItem(
-                STORAGE_KEY,
-                launchTime
-            );
-        }
-        launchTime =
-            Number(launchTime);
-        function updateCountdown() {
-            const now =
-                Date.now();
-            const distance =
-                launchTime - now;
-            if (distance <= 0) {
-                document.getElementById("days")
-                    .textContent = "00";
-                document.getElementById("hours")
-                    .textContent = "00";
-                document.getElementById("minutes")
-                    .textContent = "00";
-                document.getElementById("seconds")
-                    .textContent = "00";
-                return;
-            }
-            const days =
-                Math.floor(
-                    distance /
-                    (1000 * 60 * 60 * 24)
-                );
-            const hours =
-                Math.floor(
-                    (distance /
-                    (1000 * 60 * 60)) % 24
-                );
-            const minutes =
-                Math.floor(
-                    (distance /
-                    (1000 * 60)) % 60
-                );
-            const seconds =
-                Math.floor(
-                    (distance / 1000) % 60
-                );
-            document.getElementById("days")
-                .textContent =
-                String(days)
-                    .padStart(2, "0");
-            document.getElementById("hours")
-                .textContent =
-                String(hours)
-                    .padStart(2, "0");
-            document.getElementById("minutes")
-                .textContent =
-                String(minutes)
-                    .padStart(2, "0");
-            document.getElementById("seconds")
-                .textContent =
-                String(seconds)
-                    .padStart(2, "0");
-        }
-        updateCountdown();
-        setInterval(
-            updateCountdown,
-            1000
+        <div class="time-box">
+          <span
+            class="number"
+            id="minutes"
+          >
+            00
+          </span>
+          <span class="label">
+            Phút
+          </span>
+        </div>
+        <div class="time-box">
+          <span
+            class="number"
+            id="seconds"
+          >
+            00
+          </span>
+          <span class="label">
+            Giây
+          </span>
+        </div>
+      </div>
+      <!-- ===================================================
+           DISCORD
+      ==================================================== -->
+      <a
+        class="discord-button"
+        href="https://discord.gg/HFsJZ2qaqt"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="discord-icon">
+          ◈
+        </span>
+        <span>
+          Tham gia Discord
+        </span>
+      </a>
+      <!-- ===================================================
+           FOOTER
+      ==================================================== -->
+      <footer>
+        © 2026 KENTHONGBAO · All rights reserved.
+      </footer>
+    </div>
+  </main>
+  <!-- =======================================================
+       JAVASCRIPT
+  ======================================================== -->
+  <script>
+    /*
+    ==========================================================
+    KENTHONGBAO COUNTDOWN
+    ==========================================================
+    Đây là COUNTDOWN CỐ ĐỊNH.
+    Không sử dụng:
+      - localStorage
+      - sessionStorage
+      - cookie
+      - thời điểm người dùng truy cập lần đầu
+    Vì vậy:
+      Người A mở web hôm nay
+      Người B mở web ngày mai
+      Người C mở web sau 1 tháng
+    => Tất cả đều đếm tới CÙNG MỘT THỜI ĐIỂM.
+    ----------------------------------------------------------
+    Định dạng:
+      YYYY-MM-DDTHH:MM:SS+07:00
+    +07:00 = múi giờ Việt Nam.
+    ==========================================================
+    */
+    /*
+    ==========================================================
+    NGÀY RA MẮT
+    ==========================================================
+    HIỆN TẠI:
+      15/11/2026
+      20:00
+      Giờ Việt Nam
+    Muốn đổi ngày thì CHỈ CẦN sửa dòng bên dưới.
+    ==========================================================
+    */
+    const LAUNCH_DATE = new Date(
+      "2026-11-15T20:00:00+07:00"
+    ).getTime();
+    /*
+    ==========================================================
+    LẤY ELEMENT
+    ==========================================================
+    */
+    const daysElement =
+      document.getElementById("days");
+    const hoursElement =
+      document.getElementById("hours");
+    const minutesElement =
+      document.getElementById("minutes");
+    const secondsElement =
+      document.getElementById("seconds");
+    const titleElement =
+      document.getElementById("mainTitle");
+    const statusTextElement =
+      document.getElementById("statusText");
+    /*
+    ==========================================================
+    FORMAT NUMBER
+    ==========================================================
+    */
+    function formatNumber(number) {
+      return String(number).padStart(2, "0");
+    }
+    /*
+    ==========================================================
+    COUNTDOWN
+    ==========================================================
+    */
+    function updateCountdown() {
+      const now =
+        Date.now();
+      const distance =
+        LAUNCH_DATE - now;
+      /*
+      --------------------------------------------------------
+      ĐÃ ĐẾN NGÀY RA MẮT
+      --------------------------------------------------------
+      */
+      if (distance <= 0) {
+        daysElement.textContent =
+          "00";
+        hoursElement.textContent =
+          "00";
+        minutesElement.textContent =
+          "00";
+        secondsElement.textContent =
+          "00";
+        titleElement.textContent =
+          "We are live.";
+        statusTextElement.textContent =
+          "ONLINE";
+        return;
+      }
+      /*
+      --------------------------------------------------------
+      TÍNH NGÀY
+      --------------------------------------------------------
+      */
+      const days =
+        Math.floor(
+          distance /
+          (1000 * 60 * 60 * 24)
         );
-    </script>
+      /*
+      --------------------------------------------------------
+      TÍNH GIỜ
+      --------------------------------------------------------
+      */
+      const hours =
+        Math.floor(
+          (distance /
+            (1000 * 60 * 60))
+          % 24
+        );
+      /*
+      --------------------------------------------------------
+      TÍNH PHÚT
+      --------------------------------------------------------
+      */
+      const minutes =
+        Math.floor(
+          (distance /
+            (1000 * 60))
+          % 60
+        );
+      /*
+      --------------------------------------------------------
+      TÍNH GIÂY
+      --------------------------------------------------------
+      */
+      const seconds =
+        Math.floor(
+          (distance / 1000)
+          % 60
+        );
+      /*
+      --------------------------------------------------------
+      HIỂN THỊ
+      --------------------------------------------------------
+      */
+      daysElement.textContent =
+        formatNumber(days);
+      hoursElement.textContent =
+        formatNumber(hours);
+      minutesElement.textContent =
+        formatNumber(minutes);
+      secondsElement.textContent =
+        formatNumber(seconds);
+    }
+    /*
+    ==========================================================
+    CHẠY NGAY KHI LOAD
+    ==========================================================
+    */
+    updateCountdown();
+    /*
+    ==========================================================
+    CẬP NHẬT MỖI GIÂY
+    ==========================================================
+    */
+    const countdownTimer =
+      setInterval(
+        updateCountdown,
+        1000
+      );
+  </script>
 </body>
 </html>
